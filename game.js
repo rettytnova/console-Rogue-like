@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import readlineSync from 'readline-sync';
-// 상속을 해줄 클래스
+
 class Player {
   constructor() {
     this._maxHp = 100; // 최대체력
@@ -338,8 +338,8 @@ const battle = async (stage, player, monster) => {
         console.log(chalk.red('올바른 선택을 하세요.'));
     }    
 
-    if (!player.state || battleSkip) {
-      // 도망 중이거나 잘못된 입력으로 인해 배틀을 스킵해야할 경우 몬스터의 공격을 실행하지 않는다.
+    if (!player.state && !battleSkip) {
+      // 전투 중이고 스킬사용 마나가 부족하지 않다면 정상적으로 공격을 실행했으므로 몬스터의 턴으로 넘긴다.
       dmg = player.damaged(monster.atk, monster.acc);
       if (dmg == 0) {
         logs.push(chalk.cyanBright(`몬스터의 공격을 회피했습니다.`));
@@ -347,7 +347,7 @@ const battle = async (stage, player, monster) => {
         logs.push(chalk.cyanBright(`플레이어가 ${dmg}의 피해를 입었습니다.`));
       }
     }else if(player.state){
-        logs.push(chalk.red(`전투에서 도망쳤습니다. 1스테이지로 돌아갑니다.`));
+      // 도망갔을 경우 
         break;
     }
   }
@@ -356,7 +356,7 @@ const battle = async (stage, player, monster) => {
 export async function startGame() {
   console.clear();
   const player = new Player();
-  const monster = new Monster(); //몬스터도 스테이지 클리어되면 같은 객체를 재탕하기 위해 여기에 선언
+  const monster = new Monster();//몬스터도 스테이지 클리어되면 같은 객체를 재탕하기 위해 여기에 선언
   let stage = 1;
 
   while (stage <= 10) {
