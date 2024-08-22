@@ -5,7 +5,7 @@ class Player {
   constructor() {
     this._maxHp = 100; // 최대체력
     this._hp = this._maxHp; // 체력
-    this._maxMp = 3; // 최대마나
+    this._maxMp = 1; // 최대마나
     this._mp = this._maxMp; // 마나
     this._atk = 10; // 공격력
     this._def = 1; // 방어력
@@ -111,7 +111,7 @@ class Player {
   initialize() {
     this._maxHp = 100;
     this._hp = this._maxHp;
-    this._maxMp = 3;
+    this._maxMp = 1;
     this._mp = this._maxMp;
     this._atk = 10;
     this._def = 1;
@@ -346,6 +346,9 @@ const battle = async (stage, player, monster) => {
       } else {
         logs.push(chalk.cyanBright(`플레이어가 ${dmg}의 피해를 입었습니다.`));
       }
+    }else if(player.state){
+        logs.push(chalk.red(`전투에서 도망쳤습니다. 1스테이지로 돌아갑니다.`));
+        break;
     }
   }
 };
